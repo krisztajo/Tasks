@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  border-bottom: 1px solid #cfa75f;
+  background-color: #c6efa6;
+}
+
+.user {
+  color: orange;
+  font-weight: bold;
+  margin-right: 1rem;
+}
