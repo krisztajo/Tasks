@@ -1,9 +1,13 @@
 import React from "react";
-import courses, { CourseType } from "../../constants";
+
+import mockedCoursesList, { CourseType } from "../../constants";
+
 import CourseCard from "./components/CourseCard/CourseCard";
-import styles from "./Courses.module.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Button from "../../common/Button";
+
+import styles from "./Courses.module.css";
+import EmptyCourseList from "../EmptyCourseList/EmtyCourseList";
 
 const Courses: React.FC = () => {
   return (
@@ -12,9 +16,10 @@ const Courses: React.FC = () => {
         <SearchBar />
         <Button>Add new</Button>
       </div>
+      {mockedCoursesList.length === 0 && <EmptyCourseList />}
       <ul className={styles.coursesList}>
-        {courses.map((course: CourseType) => (
-          <CourseCard course={course} key={course.title} />
+        {mockedCoursesList.map((course: CourseType) => (
+          <CourseCard course={course} key={course.id} />
         ))}
       </ul>
     </div>

@@ -1,15 +1,29 @@
 import React from "react";
+
 import { CourseType } from "../../../../constants";
+
 import styles from "./CourseCard.module.css";
+
 import Button from "../../../../common/Button";
+
 import trash from "../../../../assets/trash.svg";
 import edit from "../../../../assets/edit.svg";
+
+import getCourseDuration from "../../../../helpers/getCourseDuration";
+import formatCreationDate from "../../../../helpers/formatCreationDate";
+
+import { mockedAuthorsList } from "../../../../constants";
 
 type CourseInfoProps = {
   course: CourseType;
 };
 
 const CourseCard: React.FC<CourseInfoProps> = ({ course }) => {
+  const authorsList: string = mockedAuthorsList
+    .filter((author) => course.authors.includes(author.id))
+    .map((author) => author.name)
+    .join(", ");
+
   return (
     <li key={course.title} className={styles.courseCard}>
       <div className={styles.courseInfo}>
@@ -17,17 +31,17 @@ const CourseCard: React.FC<CourseInfoProps> = ({ course }) => {
         <p>{course.description}</p>
       </div>
       <div className={styles.courseDetails}>
-        <p>
+        <p className={styles.authors}>
           <strong>Authors: </strong>
-          {course.authors}
+          {authorsList}
         </p>
         <p>
           <strong>Duration: </strong>
-          {course.duration}
+          {getCourseDuration(course.duration)}
         </p>
         <p>
           <strong>Created: </strong>
-          {course.createdDate}
+          {formatCreationDate(course.creationDate)}
         </p>
         <div className={styles.courseActions}>
           <Button>SHOW COURSE</Button>
