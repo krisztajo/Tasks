@@ -12,15 +12,22 @@ import edit from "../../../../assets/edit.svg";
 import getCourseDuration from "../../../../helpers/getCourseDuration";
 import formatCreationDate from "../../../../helpers/formatCreationDate";
 
-import { mockedAuthorsList } from "../../../../constants";
+import { ViewType } from "../../../../App";
+import { useAuthors } from "../../../../contexts/AuthorsProvider";
 
-type CourseInfoProps = {
+type CourseCardProps = {
   course: CourseType;
+  setSelectedCourse: (course: CourseType) => void;
+  setView: (view: ViewType) => void;
 };
 
-const CourseCard: React.FC<CourseInfoProps> = ({ course }) => {
-  const authorsList: string = mockedAuthorsList
-    .filter((author) => course.authors.includes(author.id))
+const CourseCard: React.FC<CourseCardProps> = ({
+  course,
+  setSelectedCourse,
+  setView,
+}) => {
+  const authorsList: string = useAuthors()
+    .authors.filter((author) => course.authors.includes(author.id))
     .map((author) => author.name)
     .join(", ");
 
@@ -44,7 +51,14 @@ const CourseCard: React.FC<CourseInfoProps> = ({ course }) => {
           {formatCreationDate(course.creationDate)}
         </p>
         <div className={styles.courseActions}>
-          <Button>SHOW COURSE</Button>
+          <Button
+            onClick={() => {
+              setSelectedCourse(course);
+              setView("details");
+            }}
+          >
+            SHOW COURSE
+          </Button>
           <Button>
             <img src={trash} height="25px" />
           </Button>

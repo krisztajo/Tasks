@@ -1,0 +1,41 @@
+.container {
+  width: 60%;
+  margin: 50px auto;
+}
+
+.courseCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: #7d966b 5px solid;
+  background-color: #dafdbf;
+  border-radius: 8px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.courseInfo {
+  flex: 5;
+  padding: 5px 0px 10px 100px;
+}
+
+.courseDetails {
+  flex: 3;
+  padding: 5px 50px 10px 50px;
+}
+
+.courseDetails p {
+  margin: 5px 8px;
+}
+
+.authors {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 300px;
+}
+.action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}

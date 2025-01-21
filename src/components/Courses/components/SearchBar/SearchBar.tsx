@@ -4,10 +4,27 @@ import Button from "../../../../common/Button";
 
 import styles from "./SearchBar.module.css";
 
-const SearchBar: React.FC = () => {
+type SearchBarPropsType = {
+  setFilterValue: (value: string) => void;
+  filterValue: string;
+};
+
+const SearchBar: React.FC<SearchBarPropsType> = ({
+  filterValue,
+  setFilterValue,
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValue(e.target.value);
+  };
   return (
     <div className={styles.searchBar}>
-      <input type="text" placeholder="Search..." className={styles.input} />
+      <input
+        type="text"
+        placeholder="Search..."
+        value={filterValue}
+        className={styles.input}
+        onChange={handleChange}
+      />
       <Button>Search</Button>
     </div>
   );

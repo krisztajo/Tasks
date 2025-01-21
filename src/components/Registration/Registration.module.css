@@ -1,0 +1,44 @@
+.form {
+  width: 220px;
+  margin: 0 auto;
+  padding: 30px 50px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  margin: 100px 20px 20px 20px;
+  font-size: 24px;
+  color: #555;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+.loginRedirect {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loginRedirect {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #555;
+}
+
+.loginRedirect a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #555;
+}
+
+.loginRedirect a:hover {
+  text-decoration: underline;
+}

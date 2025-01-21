@@ -7,6 +7,11 @@ export type CourseType = {
   creationDate: string;
 };
 
+export type AuthorType = {
+  id: string;
+  name: string;
+};
+
 export const mockedCoursesList: CourseType[] = [
   {
     id: "de5aaa59-90f5-4dbc-b8a9-aaf205c551ba",

@@ -1,0 +1,35 @@
+.authorItem {
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.authorName {
+  margin-right: 8px;
+}
+
+.actionIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addIcon,
+.deleteIcon {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.addIcon:hover {
+  color: green;
+}
+
+.deleteIcon:hover {
+  color: red;
+}
