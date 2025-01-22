@@ -1,11 +1,17 @@
 import { useState } from "react";
 
 import Input from "../../common/Input";
-import Button from "../../common/Button";
 
 import styles from "./Registration.module.css";
 
-const Registration = () => {
+import { ViewType } from "../../App";
+import Button from "../../common/Button";
+
+type RegistrationPropsType = {
+  setView: (view: ViewType) => void;
+};
+
+const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -95,6 +101,9 @@ const Registration = () => {
         <Button fullWidth>Register</Button>
         <p className={styles.loginRedirect}>
           If you have an account you may <a href="">Login</a>
+          <button onClick={() => setView("login")} className={styles.login}>
+            Login
+          </button>
         </p>
       </form>
     </>

@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { AuthorType, mockedAuthorsList } from "../constants";
 
-type AuthorsContextType = {
+export type AuthorsContextType = {
   authors: AuthorType[];
   addAuthor: (author: AuthorType) => void;
   removeAuthor: (id: string) => void;
+  unionAuthors: (list1: AuthorType[]) => void;
 };
 
 type AuthorsProviderProps = {
@@ -26,8 +27,19 @@ const AuthorsProvider: React.FC<AuthorsProviderProps> = ({ children }) => {
     );
   };
 
+  // Union of authors - O(n) complexity with Map
+  const unionAuthors = (courseAuthors: AuthorType[]) => {
+    setAuthors((prevAuthors) => [
+      ...new Map(
+        [...prevAuthors, ...courseAuthors].map((author) => [author.id, author])
+      ).values(),
+    ]);
+  };
+
   return (
-    <AuthorsContext.Provider value={{ authors, addAuthor, removeAuthor }}>
+    <AuthorsContext.Provider
+      value={{ authors, addAuthor, removeAuthor, unionAuthors }}
+    >
       {children}
     </AuthorsContext.Provider>
   );

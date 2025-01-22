@@ -21,16 +21,6 @@
   margin-top: 0px;
 }
 
-.registration {
-  background: none;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  color: #555;
-  cursor: pointer;
-  padding: 4px;
-}
-
 .registrationRedirect {
   text-align: center;
   margin-top: 20px;
@@ -43,6 +33,15 @@
   color: #555;
 }
 
+.registration {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  padding: 4px;
+}
 .registration:hover {
   text-decoration: underline;
 }

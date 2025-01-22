@@ -1,61 +1,42 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import Textarea from "../../common/Textarea";
 import Button from "../../common/Button";
 import Input from "../../common/Input";
-import AuthorItem from "../AuthorItem/AuthorItem";
+import AuthorItem from "../AuthorItem/AuthorItem.js";
 
 import styles from "./CreateCourse.module.css";
+
 import randomIdGenerator from "../../helpers/randomIdGenerator";
 
-import { ViewType } from "../../App";
-import { useAuthors } from "../../contexts/AuthorsProvider";
-import { useCourses } from "../../contexts/CoursesProvider";
-
-import { AuthorType } from "../../constants";
-import { handleCreateCourseSubmit } from "./hanleCreateCourseSubmit";
+import { ViewType } from "../../App.js";
+import { useAuthors } from "../../contexts/AuthorsProvider.js";
+import { AuthorType } from "../../constants.js";
+import { useCourses } from "../../contexts/CoursesProvider.js";
 
 type CreateCourseProps = {
   setView: (view: ViewType) => void;
 };
 
 const CreateCourse: React.FC<CreateCourseProps> = ({ setView }) => {
-  // State-ek
-  const [title, setTitle] = useState("");
-  const [titleError, setTitleError] = useState("");
-  const [description, setDescription] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [durationError, setDurationError] = useState("");
-  const [formattedDuration, setFormattedDuration] = useState("00:00");
-  const [author, setAuthor] = useState("");
-  const [authorError, setAuthorError] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [duration, setDuration] = useState<number>(0);
+  const [formattedDuration, setFormattedDuration] = useState<string>("");
+  const [author, setAuthor] = useState<string>("");
+
+  const [titleError, setTitleError] = useState<string>("");
+  const [descriptionError, setDescriptionError] = useState<string>("");
+  const [durationError, setDurationError] = useState<string>("");
+  const [authorError, setAuthorError] = useState<string>("");
 
   const authorContext = useAuthors();
-  const courses = useCourses();
-
-  const [availableAuthors, setAvailableAuthors] = useState<AuthorType[]>(
+  const [availableAuthors, setAvailableAuthors] = useState(
     authorContext.authors
   );
-  const [courseAuthors, setCourseAuthors] = useState<AuthorType[]>([]);
+  const [courseAuthors, setCourseAuthors] = useState([] as AuthorType[]);
 
-  // Handler az űrlap elküldésére
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    handleCreateCourseSubmit({
-      e,
-      title,
-      setTitleError,
-      description,
-      setDescriptionError,
-      duration,
-      setDurationError,
-      courseAuthors,
-      authorContext,
-      courses,
-      setView,
-      randomIdGenerator,
-    });
-  };
+  const courses = useCourses();
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const minutes = Number(e.target.value);
@@ -65,6 +46,56 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ setView }) => {
       .padStart(2, "0");
     const mins = (Number(minutes) % 60).toString().padStart(2, "0");
     setFormattedDuration(`${hours}:${mins}`);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validation
+    let valid = true;
+
+    const titleRegex = /^.{2,}$/;
+    if (!titleRegex.test(title)) {
+      setTitleError("Title must be at least 2 characters long.");
+      valid = false;
+    } else {
+      setTitleError("");
+    }
+
+    const descriptionRegex = /^.{2,}$/;
+    if (!descriptionRegex.test(description)) {
+      setDescriptionError("Description must be at least 2 characters long.");
+      valid = false;
+    } else {
+      setDescriptionError("");
+    }
+
+    if (duration <= 0) {
+      setDurationError("Duration must be a positive number.");
+      valid = false;
+    } else {
+      setDurationError("");
+    }
+
+    if (valid) {
+      const id = randomIdGenerator();
+      const authors = courseAuthors.map((author) => author.id);
+      const creationDate = new Date().toLocaleDateString("en-GB");
+      authorContext.unionAuthors(courseAuthors);
+
+      console.log(id, title, description, authors, duration, creationDate);
+
+      //push course to courses array
+      courses.pushCourse({
+        id,
+        title,
+        description,
+        authors,
+        duration,
+        creationDate,
+      });
+      setView("courses");
+    }
   };
 
   //create new author

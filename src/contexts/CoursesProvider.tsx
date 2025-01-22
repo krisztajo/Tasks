@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import mockedCoursesList, { CourseType } from "../constants";
 
-type CoursesContextType = {
+export type CoursesContextType = {
   courses: CourseType[];
   addCourse: (course: CourseType) => void;
   removeCourse: (id: string) => void;
+  pushCourse: (course: CourseType) => void;
 };
 
 type CoursesProviderProps = {
@@ -26,8 +27,14 @@ const CoursesProvider: React.FC<CoursesProviderProps> = ({ children }) => {
     );
   };
 
+  const pushCourse = (course: CourseType) => {
+    setCourses((prevCourses) => [...prevCourses, course]);
+  };
+
   return (
-    <CoursesContext.Provider value={{ courses, addCourse, removeCourse }}>
+    <CoursesContext.Provider
+      value={{ courses, addCourse, removeCourse, pushCourse }}
+    >
       {children}
     </CoursesContext.Provider>
   );

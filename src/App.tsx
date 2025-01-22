@@ -31,7 +31,7 @@ function App() {
       case "login":
         return <Login setView={setView} />;
       case "registration":
-        return <Registration />;
+        return <Registration setView={setView} />;
     }
   };
 

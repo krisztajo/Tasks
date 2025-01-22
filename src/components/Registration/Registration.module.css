@@ -33,12 +33,15 @@
   color: #555;
 }
 
-.loginRedirect a {
-  text-decoration: none;
+.login {
+  background: none;
+  border: none;
+  font-size: 12px;
   font-weight: bold;
   color: #555;
+  cursor: pointer;
+  padding: 4px;
 }
-
-.loginRedirect a:hover {
+.login:hover {
   text-decoration: underline;
 }
