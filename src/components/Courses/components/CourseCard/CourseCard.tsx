@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { CourseType } from "../../../../constants";
 
@@ -12,20 +12,22 @@ import edit from "../../../../assets/edit.svg";
 import getCourseDuration from "../../../../helpers/getCourseDuration";
 import formatCreationDate from "../../../../helpers/formatCreationDate";
 
-import { ViewType } from "../../../../App";
 import { useAuthors } from "../../../../contexts/AuthorsProvider";
+import { useNavigate } from "react-router-dom";
 
 type CourseCardProps = {
   course: CourseType;
-  setSelectedCourse: (course: CourseType) => void;
-  setView: (view: ViewType) => void;
 };
 
-const CourseCard: React.FC<CourseCardProps> = ({
-  course,
-  setSelectedCourse,
-  setView,
-}) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  });
+
   const authorsList: string = useAuthors()
     .authors.filter((author) => course.authors.includes(author.id))
     .map((author) => author.name)
@@ -51,12 +53,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           {formatCreationDate(course.creationDate)}
         </p>
         <div className={styles.courseActions}>
-          <Button
-            onClick={() => {
-              setSelectedCourse(course);
-              setView("details");
-            }}
-          >
+          <Button onClick={() => navigate(`/courses/${course.id}`)}>
             SHOW COURSE
           </Button>
           <Button>

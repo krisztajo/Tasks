@@ -1,7 +1,7 @@
 import { AuthorsContextType } from "../../contexts/AuthorsProvider";
 import { CoursesContextType } from "../../contexts/CoursesProvider";
 import { AuthorType } from "../../constants";
-import { ViewType } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 type HandleSubmitParamsType = {
   e: React.FormEvent<HTMLFormElement>;
@@ -21,9 +21,9 @@ type HandleSubmitParamsType = {
   authorContext: AuthorsContextType;
   courses: CoursesContextType;
 
-  setView: (view: ViewType) => void;
-
   randomIdGenerator: () => string;
+
+  navigate: ReturnType<typeof useNavigate>;
 };
 
 export function handleCreateCourseSubmit(params: HandleSubmitParamsType) {
@@ -38,8 +38,8 @@ export function handleCreateCourseSubmit(params: HandleSubmitParamsType) {
     courseAuthors,
     authorContext,
     courses,
-    setView,
     randomIdGenerator,
+    navigate,
   } = params;
 
   e.preventDefault();
@@ -91,5 +91,5 @@ export function handleCreateCourseSubmit(params: HandleSubmitParamsType) {
   });
 
   // back to the courses view
-  setView("courses");
+  navigate("/courses");
 }

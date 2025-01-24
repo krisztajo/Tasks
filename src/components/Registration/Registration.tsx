@@ -4,14 +4,10 @@ import Input from "../../common/Input";
 
 import styles from "./Registration.module.css";
 
-import { ViewType } from "../../App";
 import Button from "../../common/Button";
+import { Link, useNavigate } from "react-router-dom";
 
-type RegistrationPropsType = {
-  setView: (view: ViewType) => void;
-};
-
-const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
+const Registration = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -20,7 +16,11 @@ const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [saveErrors, setSaveError] = useState<string[]>();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validation
@@ -56,10 +56,26 @@ const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
     }
 
     if (valid) {
-      console.log(name, email, password);
-      setName("");
-      setEmail("");
-      setPassword("");
+      const newUser = {
+        name,
+        password,
+        email,
+      };
+
+      const response = await fetch("http://localhost:4000/register", {
+        method: "POST",
+        body: JSON.stringify(newUser),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+      if (result.successful) {
+        navigate("/login");
+      } else {
+        setSaveError(result.errors);
+      }
     }
   };
 
@@ -67,6 +83,8 @@ const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
     <>
       <h1 className={styles.title}>Registration</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
+        {saveErrors &&
+          saveErrors.map((error) => <p className={styles.error}>{error}</p>)}
         <Input
           labelText="Name"
           placeholderText="Enter your name"
@@ -100,10 +118,10 @@ const Registration: React.FC<RegistrationPropsType> = ({ setView }) => {
         {passwordError && <p className={styles.error}>{passwordError}</p>}
         <Button fullWidth>Register</Button>
         <p className={styles.loginRedirect}>
-          If you have an account you may <a href="">Login</a>
-          <button onClick={() => setView("login")} className={styles.login}>
+          If you have an account you may
+          <Link to="/login" className={styles.link}>
             Login
-          </button>
+          </Link>
         </p>
       </form>
     </>

@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App.tsx";
 import CoursesProvider from "./contexts/CoursesProvider.tsx";
 import AuthorsProvider from "./contexts/AuthorsProvider.tsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CoursesProvider>
-      <AuthorsProvider>
-        <App />
-      </AuthorsProvider>
-    </CoursesProvider>
+    <BrowserRouter>
+      <CoursesProvider>
+        <AuthorsProvider>
+          <App />
+        </AuthorsProvider>
+      </CoursesProvider>
+    </BrowserRouter>
   </StrictMode>
 );

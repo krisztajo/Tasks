@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Textarea from "../../common/Textarea";
 import Button from "../../common/Button";
@@ -8,18 +8,22 @@ import AuthorItem from "../AuthorItem/AuthorItem";
 import styles from "./CreateCourse.module.css";
 import randomIdGenerator from "../../helpers/randomIdGenerator";
 
-import { ViewType } from "../../App";
 import { useAuthors } from "../../contexts/AuthorsProvider";
 import { useCourses } from "../../contexts/CoursesProvider";
 
 import { AuthorType } from "../../constants";
 import { handleCreateCourseSubmit } from "./hanleCreateCourseSubmit";
+import { useNavigate } from "react-router-dom";
 
-type CreateCourseProps = {
-  setView: (view: ViewType) => void;
-};
+const CreateCourse = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  });
 
-const CreateCourse: React.FC<CreateCourseProps> = ({ setView }) => {
   // State-ek
   const [title, setTitle] = useState("");
   const [titleError, setTitleError] = useState("");
@@ -52,8 +56,8 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ setView }) => {
       courseAuthors,
       authorContext,
       courses,
-      setView,
       randomIdGenerator,
+      navigate,
     });
   };
 
@@ -217,8 +221,8 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ setView }) => {
           </div>
         </div>
         <div className={styles.formActions}>
-          <Button type="button" onClick={() => setView("courses")}>
-            CANCEL
+          <Button type="button" onClick={() => navigate("/")}>
+            BACK
           </Button>
           <Button type="submit">CREATE COURSE</Button>
         </div>
